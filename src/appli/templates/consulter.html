@@ -150,8 +150,8 @@
       <div class="extra content">
             {% for contact in experience.contacts.all %}
             <a class="ui mini orange image label">
-              <img src="{% if contact.actor.logo %}{{ contact.actor.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif %}" alt   ="{{ contact.actor.nom }}">
-                {{ contact.actor.nom }}
+              <img src="{% if contact.actor.logo %}{{ contact.actor.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif %}" alt   ="{{ contact.actor.name }}">
+                {{ contact.actor.name }}
               <div class="detail"><i class="user icon"></i> {{ contact }}</div>
             </a>
             {% endfor %}
@@ -163,10 +163,10 @@
             
             {% for contact in experience.contacts.all %}
             <div class="item">
-              <img class="ui mini circular image" src="{% if contact.acteur.logo %}{{ contact.acteur.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif %}" alt="{{ contact.acteur.nom }}">
+              <img class="ui mini circular image" src="{% if contact.actor.logo %}{{ contact.actor.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif %}" alt="{{ contact.actor.nom }}">
               <div class="content">
-                <div class="ui sub header">{{ contact.acteur.nom }}</div>
-               <small> <i class="user icon"></i> {{ contact.prenom }} {{ contact.nom }} </small>
+                <div class="ui sub header">{{ contact.actor.name }}</div>
+               <small> <i class="user icon"></i> {{ contact }} </small>
               </div>
             </div>
             {% endfor %}
@@ -223,7 +223,7 @@
 
        L.geoJson({{ geojson|safe }}, {
          style: function(feature) {
-           switch (feature.properties.statut) {
+           switch (feature.properties.status) {
                case 'green':
                  return {color: "rgba(34, 120, 15, 0.8)", "opacity": 0.9, fillColor:"rgba(34, 120, 15, 1)"};
            }
@@ -232,7 +232,7 @@
          pointToLayer: function(feature, latlng) {
            //return new L.CircleMarker(latlng, {radius: 3, fillOpacity: 0.85});
            //return new L.Marker(latlng, {icon: greenIcon});
-           switch (feature.properties.statut) {
+           switch (feature.properties.status) {
               case 'green':
                 return new L.Marker(latlng, {icon: greenIcon});
               case 'yellow':

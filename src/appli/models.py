@@ -74,14 +74,14 @@ class Experience(models.Model):
         verbose_name = u"Expérience"
 
     def __unicode__(self):
-        return self.nom
+        return self.name
 
     @property
     def geometry(self):
         return self.city.geometry
 
     @property
-    def centroide(self):
+    def centroid(self):
         return self.city.geometry.centroid
 
     @property
@@ -139,10 +139,10 @@ class City(gis_models.Model):
                 self.geometry = GeometryCollection(mpoly)
             except:
                 pass   
-        super(Commune, self).save(*args, **kwargs)
+        super(City, self).save(*args, **kwargs)
 
 
-    def centroide(self):
+    def centroid(self):
         return self.geometry.centroid
 
     def __unicode__(self):
