@@ -7,26 +7,16 @@
   {% leaflet_css %}
 
     <style type="text/css">
+    
       .leaflet-container {
           width:  100%;
           height: 30%;
-          margin-top: 57px;
-          z-index : 10000;
-          //border-radius: 10px;
-          //position: relative;
+          margin-bottom: 5px;
+          margin-top: 35px;
       }
       .leaflet-popup {
           max-width:  250px;
           //max-height: 70%;
-      }
-      .card {
-        margin: 5px;
-        opacity: 0.95;
-      }
-      .logo {
-        max-width: 70px;
-        max-height: 70px;
-        margin: auto;
       }
       .image{
         height: 180px;
@@ -36,161 +26,128 @@
         max-height: 180px;
         margin: auto;
       }
-      .padding-bottom{
-        padding-bottom: 20px;
+      
+      .ui.card .extra.content {
+        font-size: 80%;
       }
-      #description{
-        margin-top: 10px;
+   
+      .ui.card.green_ {
+        box-shadow: 0 0 .2em .1em #088A08;
+      }
+         
+      .ui.card.yellow_ {
+        box-shadow: 0 0 .2em .1em #DFAF2C;
       }
       
-    .ui.card .extra.content {
-      font-size: 80%;
-    }
+      .ui.card.teal_ {
+        box-shadow: 0 0 .2em .1em #067071;
+      }
+      
+      .ui.card:hover {
+        box-shadow: 0 0 .2em .3em #888888;
+      }
 
-    .ui.card.green_ {
-      box-shadow: 0 0 .2em .1em #088A08;
-    }
-       
-    .ui.card.yellow_ {
-      box-shadow: 0 0 .2em .1em #DFAF2C;
-    }
-    
-    .ui.card.teal_ {
-      box-shadow: 0 0 .2em .1em #067071;
-    }
-    
-    .ui.card:hover {
-      box-shadow: 0 0 .2em .3em #888888;
-    }
-
-    .small.text {
-        font-size: 0.8rem;
-     }
-  
-
-  </style>
+    </style>
 
 {% endblock %}
 
 
 {% block body %}
-
- {% leaflet_map "carte" %}
-
-<div id="filtrer" class="ui vertical icon menu">
-  <a class="browse item">
-    <i class="filter icon"></i>
-  </a>
-  <div id="filter_popup" class="ui fluid popup bottom left transition visible animating scale out">
-    <div class="ui four column relaxed equal height divided grid">
-      <div class="column">
-        <h4 class="ui header">Filtre</h4>
-        
-         {% block content %}
-          <form action="" method="get">
-          {{ filter.form.as_p }}
-            <input type="submit" />
-          </form>
-         {% endblock %}
-        
-      </div>
-    </div>
-  </div>
-  
+<div class="ui mini fixed sticky buttons">
+  <button id="show-sidebar" class="ui mini blue button">Filtre</button>
+  <div class="or"  data-text="ou"></div>
+  <button id="tout" class="ui mini purple button">Tout</button>
 </div>
 
+{% leaflet_map "carte" %}
 
-<div class="container fluid">
-
-<div class="row">
-<div class="col-md-14">
-
-</div>
-</div>
-
-<br>
-
-<div class="row">
-    <div class="ui three stackable cards">
-      {% for experience in filter.qs %}
-      <div class="ui {{ experience.status }}_ fluid card">
-        
-        <div class="image">
-          <div class="ui tiny {{ experience.status }} ribbon label"> {{ experience.get_status_display }}</div>
-          <img src="{% if experience.featured_image %}{{ experience.featured_image.url }}{% else %}
-              {% load static %}{% static 'Images/image.png' %}{% endif %}" alt="{{ experience.name }}">
-        </div>
-      <div class="content">
-        <div class="ui feed">
-          <div class="event">
-            <div class="label">
-              <img src="{% if experience.logo %}{{ experience.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif %}" alt="{{ experience.name }}">
-            </div>
-            <div class="content">
-                <div class="date">
-                  <a class="header"  href="/experience/{{ experience.id }}/">{{ experience.name }}</a>
-                </div>
-                <div class="summary">
-                  <span class="date tiny">{{ experience.address }}</span>
-                </div>
-                <div class="extra text">
-                   <p class="small text">{{ experience.description_short }}</p>
-                </div>   
-            </div>
-           </div>
-        </div> 
-      </div>
-      <div class="extra content">
-           {% for tag in experience.tags.all %}
-            <div class="ui mini olive tag labels">
-              <a class="ui label">{{ tag.tag }}</a>
-            </div>
-            {% endfor %}
-      </div>
-      <div class="extra content">
-            {% for contact in experience.contacts.all %}
-            <a class="ui mini orange image label">
-              <img src="{% if contact.actor.logo %}{{ contact.actor.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif %}" alt   ="{{ contact.actor.name }}">
-                {{ contact.actor.name }}
-              <div class="detail"><i class="user icon"></i> {{ contact }}</div>
-            </a>
-            {% endfor %}
-      </div>
-
-      <div class="extra content">
-          
-          <div class="ui horizontal list">
-            
-            {% for contact in experience.contacts.all %}
+<div class="ui vertical stripe quote segment">
+    <div class="ui left vertical menu sidebar">
             <div class="item">
-              <img class="ui mini circular image" src="{% if contact.actor.logo %}{{ contact.actor.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif %}" alt="{{ contact.actor.nom }}">
-              <div class="content">
-                <div class="ui sub header">{{ contact.actor.name }}</div>
-               <small> <i class="user icon"></i> {{ contact }} </small>
+              <div id="hide-sidebar" class="button">
+                <i class="filter icon"></i>Filtrer les expériences
               </div>
             </div>
-            {% endfor %}
-           
-          </div>
-
-      </div>
-
-      <div class="ui bottom attached button">
-          <i class="caret right icon"></i>en savoir plus...
-        </div>
-      </div>
-      {% endfor %}
+            <div class="item">
+             {% block content %}
+               <form action="" method="get">
+                 {{ filter.form.as_p }}
+                 <input type="submit"></input>
+               </form>
+             {% endblock %}
+            </div>
     </div>
-    
- </div>
+    <div class="pusher">
+      <!-- Pusher start -->
+      <div class="ui container">
+        <div class="ui three stackable cards">
+            {% for experience in filter.qs %}
 
+              <div class="ui {{ experience.status }}_ fluid card">
+                    
+                  <div class="image">
+                    <div class="ui tiny {{ experience.status }} ribbon label"> {{ experience.get_status_display }}</div>
+                    <img src="{% if experience.featured_image %}{{ experience.featured_image.url }}{% else %}
+                        {% load static %}{% static 'Images/image.png' %}{% endif %}" alt="{{ experience.name }}">
+                  </div>
+                  <div class="content">
+                    <div class="ui feed">
+                      <div class="event">
+                        <div class="label">
+                          <img src="{% if experience.logo %}{{ experience.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif %}" alt="{{ experience.name }}">
+                        </div>
+                        <div class="content">
+                            <div class="date">
+                              <a class="header"  href="/experience/{{ experience.id }}/">{{ experience.name }}</a>
+                            </div>
+                            <div class="summary">
+                              <span class="date tiny">{{ experience.address }}</span>
+                            </div>
+                            <div class="extra text">
+                               <p class="small text">{{ experience.description_short }}</p>
+                            </div>   
+                        </div>
+                       </div>
+                    </div> 
+                  </div>
+                  <div class="extra content">
+                       {% for tag in experience.tags.all %}
+                        <div class="ui mini olive tag labels">
+                          <a class="ui label">{{ tag.tag }}</a>
+                        </div>
+                        {% endfor %}
+                  </div>
+                  <div class="extra content">       
+                      <div class="ui horizontal list">      
+                        {% for contact in experience.contacts.all %}
+                        <div class="item">
+                          <img class="ui mini circular image" src="{% if contact.actor.logo %}{{ contact.actor.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif            %}" alt="{{ contact.actor.nom }}">
+                          <div class="content">
+                            <div class="ui sub header">{{ contact.actor.name }}</div>
+                           <small> <i class="user icon"></i> {{ contact }} </small>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                  </div>
+                  <div class="ui bottom attached button">
+                      <i class="caret right icon"></i>en savoir plus...
+                  </div>
+
+              </div>
+
+            {% endfor %}
+        </div>
+      <div>
+      <!-- Pusher end -->
+    </div>
 </div>
 
 {% endblock body %}
 
-
 {% block bottom %}
   {{ block.super }}
+
 <script type="text/javascript">
 
   $(window).on('map:init', function (e) {
@@ -206,7 +163,6 @@
           popupAnchor:  [-1, -32] // point from which the popup should open relative to the iconAnchor
           }
       });
-
 
       var greenIcon = new LeafIcon({iconUrl: '/static/Images/leaf-green.png'}),
       tealIcon = new LeafIcon({iconUrl: '/static/Images/leaf-teal.png'}),
@@ -230,8 +186,6 @@
          },
          onEachFeature: onEachFeature,
          pointToLayer: function(feature, latlng) {
-           //return new L.CircleMarker(latlng, {radius: 3, fillOpacity: 0.85});
-           //return new L.Marker(latlng, {icon: greenIcon});
            switch (feature.properties.status) {
               case 'green':
                 return new L.Marker(latlng, {icon: greenIcon});
@@ -245,32 +199,26 @@
        }).addTo(detail.map);
   });
 
-
 </script>
-<script language='javascript'>
-   $(document).ready(function(){
-      $('.ui.accordion').accordion({
-        selector: {
-          trigger: '.icon'
-        }
-      });
-      
-      $('#filtrer .browse')
-        .popup({
-          inline     : true,
-          hoverable  : true,
-          //clickable  : true,
-          position   : 'bottom left',
-          delay: {
-            show: 200,
-            hide: 800
-          },
-        })
-      ;
+<script type="text/javascript">
+   $(function() {
 
+     $('#show-sidebar').click(function() {
+       $('.menu.sidebar').sidebar('toggle');
+     });
+  
+     $('#hide-sidebar').click(function() {
+       $('#show-sidebar').show();
+       $('.menu.sidebar').sidebar('toggle');
+     });
+
+     $('#tout').click(function() {
+       $(location).attr('href', window.location.pathname);
+     });
+       $('.ui.sticky').sticky()
+    ;
 
    });
 </script>
-
 
 {% endblock %}
