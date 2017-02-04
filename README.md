@@ -1,12 +1,12 @@
-# <project_name>
+# logement
 
 ## Install
 
 On linux, run the following command
 
 ```
-git clone https://github.com/<username|organisation_name>/<project_name>
-cd <project_name>
+git clone https://github.com/MEEM-MLHD/logement
+cd logement
 docker-compose up
 ```
 
@@ -16,7 +16,7 @@ Due to sync issues between containers, you may also need to migrate and create a
 If you want to recover data, fill the db with the appropriate dump
 
 ```
-eval "$(docker-machine env <project_name>)"  # not for Linux
+eval "$(docker-machine env logement)"  # not for Linux
 docker-compose run db /srv/data/backup/restore_db.sh
 ```
 
@@ -25,7 +25,7 @@ docker-compose run db /srv/data/backup/restore_db.sh
 Create a docker machine
 
 ```
-docker-machine create --driver virtualbox --virtualbox-memory 8096 <project_name>
+docker-machine create --driver virtualbox --virtualbox-memory 8096 logement
 ```
 
 List all docker machines
@@ -37,33 +37,33 @@ docker-machine ls
 Stop a docker machine
 
 ```
-docker-machine stop <project_name>
+docker-machine stop logement
 ```
 
 Start a docker machine
 
 ```
-docker-machine start <project_name>
+docker-machine start logement
 ```
 Set env variable the right way
 
 ```
-eval "$(docker-machine env <project_name>)"
+eval "$(docker-machine env logement)"
 ```
 
 To get the VM IP address
 
 ```
-docker-machine ip <project_name>
+docker-machine ip logement
 ```
 
 docker-compose
 
 ```
-docker-compose build <project_name>
-docker-compose build --no-cache <project_name>
-docker-compose run <project_name> command
-docker-compose up <project_name>
+docker-compose build logement
+docker-compose build --no-cache logement
+docker-compose run logement command
+docker-compose up logement
 docker-compose stop
 ```
 

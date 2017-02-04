@@ -94,10 +94,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.9/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -108,9 +104,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/static'
@@ -124,8 +117,7 @@ LEAFLET_CONFIG = {
     'DEFAULT_ZOOM': 5,
     'MIN_ZOOM': 3,
     'MAX_ZOOM': 18,
-    'TILES': 'http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
-    #'TILES': 'https://tile.jawg.io/light/{z}/{x}/{y}.png?api-key=community',
+    'TILES': 'http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
 }
 
 SITE_ID = 1

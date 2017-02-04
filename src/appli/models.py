@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import requests
 import json
+import requests
 
-from collections import defaultdict, Counter
-
-from django.db import models
-from django.db.models import Count
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import GEOSGeometry, GeometryCollection
-from django.utils.text import slugify
+from django.db import models
 
 
 class Actor(models.Model):
@@ -24,11 +20,11 @@ class Actor(models.Model):
     featured_image = models.ImageField(upload_to="actor/featured_image", blank=True)
     tags = models.ManyToManyField('Tag')
 
-    class Meta:
-        verbose_name = u"Acteur"
-
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name = u"Acteur"
 
 
 class Contact(models.Model):
@@ -43,7 +39,7 @@ class Contact(models.Model):
     featured_image = models.ImageField(upload_to="contact/featured_image", blank=True)
     tags = models.ManyToManyField('Tag')
     actor = models.ForeignKey('Actor')
-    
+
     def __unicode__(self):
         return "%s %s" % (self.first_name, self.last_name)
 
@@ -70,9 +66,6 @@ class Experience(models.Model):
     create_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     update_date = models.DateTimeField(auto_now=True, blank=True, null=True)
 
-    class Meta:
-        verbose_name = u"Expérience"
-
     def __unicode__(self):
         return self.name
 
@@ -88,6 +81,9 @@ class Experience(models.Model):
     def statusfr(self):
         return self.get_status_display()
 
+    class Meta:
+        verbose_name = u"Expérience"
+
 
 class Event(models.Model):
     title = models.CharField(max_length=255)
@@ -101,12 +97,11 @@ class Event(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        verbose_name = u"Evénement"
-
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        verbose_name = u"Evénement"
 
 
 class Engagement(models.Model):
@@ -138,7 +133,7 @@ class City(gis_models.Model):
                 mpoly = GEOSGeometry(json.dumps(coord))
                 self.geometry = GeometryCollection(mpoly)
             except:
-                pass   
+                pass
         super(City, self).save(*args, **kwargs)
 
 
@@ -155,23 +150,25 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.tag
 
+
 class ActorImage(models.Model):
     actor = models.ForeignKey(Experience)
     file = models.ImageField(upload_to='images')
     title = models.CharField(max_length=255, blank=True)
 
+    def __unicode__(self):
+        return self.title
+
     class Meta:
         verbose_name = u"Image"
 
-    def __unicode__(self):
-        return self.title
 
 class ExperienceImage(models.Model):
     file = models.ImageField(upload_to='images')
     title = models.CharField(max_length=255, blank=True)
 
-    class Meta:
-        verbose_name = u"Image"
-
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        verbose_name = u"Image"
