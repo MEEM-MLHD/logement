@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static include_anything leaflet_tags %}
+{% load static leaflet_tags %}
 
 {% block head %}
   {{ block.super }}
@@ -23,27 +23,22 @@
         //max-width: 180px;
         max-height: 180px;
         margin: auto;
-      }
-      
+      }      
       .ui.three.stackable.cards {
         margin-top: 20px;
       }
       .ui.card .extra.content {
         font-size: 80%;
       }
-   
       .ui.card.green_ {
         box-shadow: 0 0 .2em .1em #088A08;
       }
-         
       .ui.card.yellow_ {
         box-shadow: 0 0 .2em .1em #DFAF2C;
       }
-      
       .ui.card.teal_ {
         box-shadow: 0 0 .2em .1em #067071;
       }
-      
       .ui.card:hover {
         box-shadow: 0 0 .2em .3em #888888;
       }
@@ -88,7 +83,7 @@
             {% for experience in filter.qs %}
 
               <div class="ui {{ experience.status }}_ fluid card">
-                    
+
                   <div class="image">
                     <div class="ui tiny {{ experience.status }} ribbon label"> {{ experience.get_status_display }}</div>
                     <img src="{% if experience.featured_image %}{{ experience.featured_image.url }}{% else %}
@@ -109,10 +104,10 @@
                             </div>
                             <div class="extra text">
                                <p class="small text">{{ experience.description_short }}</p>
-                            </div>   
+                            </div>
                         </div>
                        </div>
-                    </div> 
+                    </div>
                   </div>
                   <div class="extra content">
                        {% for tag in experience.tags.all %}
@@ -121,8 +116,8 @@
                         </div>
                         {% endfor %}
                   </div>
-                  <div class="extra content">       
-                      <div class="ui horizontal list">      
+                  <div class="extra content">
+                      <div class="ui horizontal list">
                         {% for contact in experience.contacts.all %}
                         <div class="item">
                           <img class="ui mini circular image" src="{% if contact.actor.logo %}{{ contact.actor.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif            %}" alt="{{ contact.actor.nom }}">
@@ -159,7 +154,7 @@
       var LeafIcon = L.Icon.extend({
           options: {
           shadowUrl: '/static/Images/leaf-shadow.png',
-      
+
           iconSize:     [15, 35], // size of the icon
           shadowSize:   [18, 24], // size of the shadow
           iconAnchor:   [9, 36], // point of the icon which will correspond to marker's location
@@ -218,7 +213,7 @@
      $('#show-sidebar').click(function() {
        $('.menu.sidebar').sidebar('toggle');
      });
-  
+
      $('#hide-sidebar').click(function() {
        $('#show-sidebar').show();
        $('.menu.sidebar').sidebar('toggle');
