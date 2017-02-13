@@ -72,3 +72,4 @@ src/appli/__init__.pyc
 *.pyc
 src/appli/models.pyc
 *.pyc
+*.png

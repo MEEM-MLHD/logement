@@ -7,12 +7,10 @@
   {% leaflet_css %}
 
     <style type="text/css">
-    
+
       .leaflet-container {
           width:  100%;
           height: 30%;
-          margin-bottom: 5px;
-          margin-top: 35px;
       }
       .leaflet-popup {
           max-width:  250px;
@@ -27,6 +25,9 @@
         margin: auto;
       }
       
+      .ui.three.stackable.cards {
+        margin-top: 20px;
+      }
       .ui.card .extra.content {
         font-size: 80%;
       }
@@ -53,17 +54,14 @@
 
 
 {% block body %}
-<div class="ui mini fixed sticky buttons">
-  <button id="show-sidebar" class="ui mini blue button">Filtre</button>
-  <div class="or"  data-text="ou"></div>
-  <button id="tout" class="ui mini purple button">Tout</button>
-</div>
+
 
 {% leaflet_map "carte" %}
 
 <div class="ui vertical stripe quote segment">
     <div class="ui left vertical menu sidebar">
             <div class="item">
+            <br>
               <div id="hide-sidebar" class="button">
                 <i class="filter icon"></i>Filtrer les expériences
               </div>
@@ -77,9 +75,15 @@
              {% endblock %}
             </div>
     </div>
-    <div class="pusher">
-      <!-- Pusher start -->
+    <div id="app" class="pusher">
+      <!-- Pusher start -->    
       <div class="ui container">
+        <div class="ui mini fixed sticky buttons">
+          <button id="show-sidebar" class="ui mini blue button">Filtre</button>
+          <div class="or"  data-text="ou"></div>
+          <button id="tout" class="ui mini purple button">Tout</button>
+        </div>
+        <br>
         <div class="ui three stackable cards">
             {% for experience in filter.qs %}
 
@@ -202,6 +206,14 @@
 </script>
 <script type="text/javascript">
    $(function() {
+
+
+     $('.menu.sidebar').sidebar(
+        {
+        context:$('#app'),
+        closable: 'false'
+        }
+     );
 
      $('#show-sidebar').click(function() {
        $('.menu.sidebar').sidebar('toggle');

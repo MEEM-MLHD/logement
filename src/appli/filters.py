@@ -10,4 +10,8 @@ class ExperienceFilter(django_filters.FilterSet):
  
     class Meta:
         model = Experience
-        fields = ['name', 'status', 'tags']
+        fields = {
+			'name': ['contains'],
+			'description_short': ['contains']
+        }
+        together = ['name', 'description_short']
