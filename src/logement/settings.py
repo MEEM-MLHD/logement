@@ -27,10 +27,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.gis',
+    'dal',
+    'dal_select2',
     'leaflet',
     'djgeojson',
     'bootstrap3',
     'django_filters',
+    'tinymce',
     'appli'
 ]
 
@@ -94,7 +97,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'UTC'
 
@@ -119,6 +122,7 @@ LEAFLET_CONFIG = {
     'MAX_ZOOM': 18,
     'TILES': 'http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
 }
+
 
 SITE_ID = 1
 

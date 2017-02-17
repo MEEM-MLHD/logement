@@ -16,7 +16,7 @@ def consulter(request):
         search = True
     geojson = GeoJSONSerializer().serialize(f.qs,
         geometry_field=('centroid'),
-        properties=('name', 'description_short', 'status', 'statusfr'))
+        properties=('title', 'description_short', 'status', 'statusfr'))
     return render(request, 'consulter.html', {
         'filter': f,
         'experiences': experiences,

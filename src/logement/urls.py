@@ -4,6 +4,10 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 from appli.views import consulter
+from appli.autocompletes import ExperienceTagAutocomplete
+
+
+
 
 
 urlpatterns = [
@@ -11,6 +15,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # On import les vues de Django, avec un nom spécifique
     url(r'^consulter[//]*', consulter, name="consulter"),
+    url(r'^tinymce/', include('tinymce.urls')),
+    url(r'^experiencetag-autocomplete/$', ExperienceTagAutocomplete.as_view(), name='experiencetag-autocomplete'),
+
     
 ]
 
