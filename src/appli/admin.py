@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-from django.contrib import admin
 from leaflet.admin import LeafletGeoAdmin
 
-from .models import *
+from django.contrib import admin
+
 from .forms import ExperienceTagForm
+from .models import *
 
 
 class ExperienceTagInline(admin.TabularInline):
     model = ExperienceTag
-    #form = ExperienceTagForm
-    #extra = 1
 
 
 class ExperienceTagAdmin(admin.ModelAdmin):
@@ -38,6 +37,8 @@ class EngagementInline(admin.TabularInline):
 
 class ParticipationInline(admin.TabularInline):
     model = Participation
+
+
     extra = 1
 
 

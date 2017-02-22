@@ -3,16 +3,17 @@ from __future__ import unicode_literals
 
 import json
 import requests
+from tinymce.models import HTMLField
 
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import GEOSGeometry, GeometryCollection
 from django.db import models
-from tinymce.models import HTMLField
-
-
 
 
 class Actor(models.Model):
+    """Actor model
+    Define an actor of an Experience, someone really involved in the housing experience.
+    """
     name = models.CharField(u'nom', max_length=120)
     address = models.CharField(u'adresse', max_length=240, blank=True)
     url = models.URLField(max_length=240, blank=True)
@@ -90,11 +91,10 @@ class Event(models.Model):
     subtitle = models.CharField(u'sous-titre', max_length=240, default="")
     featured_image = models.ImageField(u'image de couverture', upload_to="events/featured_image")
     description_short = models.TextField(u'description courte', max_length=240, default="")
-    description_long =HTMLField(u'decription longue', null=True)
+    description_long = HTMLField(u'description longue', null=True)
     publication_date = models.DateField(u'date de publication')
     deadline_date = models.DateField(u'date de fin de publication')
     url = models.URLField(max_length=240, blank=True)
-    #featured = models.BooleanField(u'à la une')
     create_date = models.DateTimeField(u'date de création', auto_now_add=True)
     update_date = models.DateTimeField(u'date de mise à jour', auto_now=True)
 
@@ -113,6 +113,7 @@ class Engagement(models.Model):
     class Meta:
         verbose_name = u"Contact"
 
+
 class Participation(models.Model):
     experience = models.ForeignKey(Experience)
     acteur = models.ForeignKey(Actor)
@@ -128,9 +129,9 @@ class City(gis_models.Model):
     geometry = gis_models.GeometryCollectionField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        if self.geometry :
+        if self.geometry:
             pass
-        else :
+        else:
             r = requests.get('https://geo.api.gouv.fr/communes?fields=nom,contour&code=%s' % (self.insee))
             try:
                 coord = r.json()[0]['contour']
