@@ -23,6 +23,7 @@ class Actor(models.Model):
     featured_image = models.ImageField(u'image de couverture', upload_to="actor/featured_image", blank=True)
     featured = models.BooleanField(u'à la une', default=False)
     share_contact_ref = models.BooleanField(u'autorise la transmission des coordonnées des contacts', default=False)
+    tags = models.ManyToManyField('ActorTag', through='ActorTagOrder')
 
     def __unicode__(self):
         return self.name
@@ -37,7 +38,7 @@ class Contact(models.Model):
     description_short = models.CharField(u'description courte', max_length=120, default="")
     email = models.EmailField(u'courriel', max_length=254, blank=True)
     phone = models.CharField(u'téléphone', max_length=15, blank=True)
-    detail = models.TextField(blank=True, null=True)
+    detail = models.TextField(u"complément", blank=True, null=True)
     photo = models.ImageField(upload_to="contact", blank=True, null=True)
     actor = models.ForeignKey('Actor', verbose_name=u'acteur')
 
@@ -65,6 +66,7 @@ class Experience(models.Model):
     featured = models.BooleanField(u'à la une', default=False)
     create_date = models.DateTimeField(u'date de création', auto_now_add=True, blank=True, null=True)
     update_date = models.DateTimeField(u'date de mise à jour', auto_now=True, blank=True, null=True)
+    tags = models.ManyToManyField('ExperienceTag', through='ExperienceTagOrder')
 
     def __unicode__(self):
         return self.title
@@ -157,19 +159,29 @@ class City(gis_models.Model):
 
 
 class ExperienceTag(models.Model):
-    experience = models.ForeignKey(Experience)
     tag = models.CharField(max_length=120)
 
     def __unicode__(self):
         return self.tag
+
+
+class ExperienceTagOrder(models.Model):
+    experience_tag = models.ForeignKey(ExperienceTag, verbose_name=u'Mot clé',)
+    experience = models.ForeignKey(Experience)
+    order = models.PositiveIntegerField(u'n° ordre')
 
 
 class ActorTag(models.Model):
-    actor = models.ForeignKey(Actor)
     tag = models.CharField(max_length=120)
 
     def __unicode__(self):
         return self.tag
+
+
+class ActorTagOrder(models.Model):
+    actor_tag = models.ForeignKey(ActorTag, verbose_name=u'Mot clé')
+    actor = models.ForeignKey(Actor)
+    order = models.PositiveIntegerField(u'n° ordre')
 
 
 class ActorImage(models.Model):

@@ -9,5 +9,5 @@ requests==2.11.1
 django-geojson==2.9.1
 django-leaflet==0.20.0
 django-autocomplete-light==3.2.0
-django-tinymce==2.6.0
+django-markdownx==1.7.2
 svgis==0.4.1

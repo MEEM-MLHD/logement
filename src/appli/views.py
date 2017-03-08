@@ -23,3 +23,23 @@ def consulter(request):
         'geojson': geojson,
         'search': search,
     })
+
+def consulter_experience(request, id):
+    experiences = Experience.objects.get(id=id)
+    geojson = GeoJSONSerializer().serialize(experiences,
+        geometry_field=('centroid'),
+        properties=('title', 'description_short', 'status', 'statusfr'))
+    return render(request, 'consulter_experience.html', {
+        'experiences': experiences,
+        'geojson': geojson,
+    })
+
+def experience_(request, id):
+    experiences = Experience.objects.get(id=id)
+    geojson = GeoJSONSerializer().serialize(experiences,
+        geometry_field=('centroid'),
+        properties=('title', 'description_short', 'status', 'statusfr'))
+    return render(request, 'consulter_.html', {
+        'experiences': experiences,
+        'geojson': geojson,
+    })

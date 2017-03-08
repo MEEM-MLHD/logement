@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     'djgeojson',
     'bootstrap3',
     'django_filters',
-    'tinymce',
+    'markdownx',
     'appli'
 ]
 

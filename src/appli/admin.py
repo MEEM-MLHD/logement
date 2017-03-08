@@ -57,7 +57,7 @@ class CityAdmin(admin.ModelAdmin):
 
 class ActorAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description_short', )
-    inlines = (ParticipationInline, ActorTagInline, ActorImageInline,)
+    inlines = (ParticipationInline, ActorImageInline,)
     search_fields = ('name', 'description_short', )
 
 
@@ -67,7 +67,7 @@ class ContactAdmin(admin.ModelAdmin):
 
 class ExperienceAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'description_short', )
-    inlines = (EngagementInline, ParticipationInline, ExperienceTagInline, ExperienceImageInline,)
+    inlines = (EngagementInline, ParticipationInline, ExperienceImageInline,)
     search_fields = ('title', 'description_short', )
     list_filter = ('status', )
 

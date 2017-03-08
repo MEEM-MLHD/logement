@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% load static leaflet_tags %}
+
+{% block head %}
+  {{ block.super }}
+  {% leaflet_js %}
+  {% leaflet_css %}
+
+    <style type="text/css">
+
+      .leaflet-container {
+          width:  100%;
+          height: 30%;
+      }
+      .leaflet-popup {
+          max-width:  250px;
+          //max-height: 70%;
+      }
+      .image{
+        height: 180px;
+      }
+      .image > img {
+        //max-width: 180px;
+        max-height: 180px;
+        margin: auto;
+      }      
+      .ui.three.stackable.cards {
+        margin-top: 20px;
+      }
+      .ui.card .extra.content {
+        font-size: 80%;
+      }
+      .ui.card.green_ {
+        box-shadow: 0 0 .2em .1em #088A08;
+      }
+      .ui.card.yellow_ {
+        box-shadow: 0 0 .2em .1em #DFAF2C;
+      }
+      .ui.card.teal_ {
+        box-shadow: 0 0 .2em .1em #067071;
+      }
+      .ui.card:hover {
+        box-shadow: 0 0 .2em .3em #888888;
+      }
+
+    </style>
+
+{% endblock %}
+
+
+{% block body %}
+
+
+{% leaflet_map "carte" %}
+
+<div class="ui vertical stripe quote segment">
+    <div class="ui left vertical menu sidebar">
+            <div class="item">
+            <br>
+              <div id="hide-sidebar" class="button">
+                <i class="filter icon"></i>Filtrer les expériences
+              </div>
+            </div>
+            <div class="item">
+             {% block content %}
+               <form action="" method="get">
+                 {{ filter.form.as_p }}
+                 <input type="submit"></input>
+               </form>
+             {% endblock %}
+            </div>
+    </div>
+    <div id="app" class="pusher">
+      <!-- Pusher start -->    
+      <div class="ui container">
+        <div class="ui mini fixed sticky buttons">
+          <button id="show-sidebar" class="ui mini blue button">Filtre</button>
+          <div class="or"  data-text="ou"></div>
+          <button id="tout" class="ui mini purple button">Tout</button>
+        </div>
+        <br>
+        <div class="ui three stackable cards">
+            {% for experience in experiences %}
+
+              <div class="ui {{ experience.status }}_ fluid card">
+
+                  <div class="image">
+                    <div class="ui tiny {{ experience.status }} ribbon label"> {{ experience.get_status_display }}</div>
+                    <img src="{% if experience.featured_image %}{{ experience.featured_image.url }}{% else %}
+                        {% load static %}{% static 'Images/image.png' %}{% endif %}" alt="{{ experience.name }}">
+                  </div>
+                  <div class="content">
+                    <div class="ui feed">
+                      <div class="event">
+                        <div class="label">
+                          <img src="{% if experience.logo %}{{ experience.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif %}" alt="{{ experience.name }}">
+                        </div>
+                        <div class="content">
+                            <div class="date">
+                              <a class="header"  href="/experience/{{ experience.id }}/">{{ experience.name }}</a>
+                            </div>
+                            <div class="summary">
+                              <span class="date tiny">{{ experience.address }}</span>
+                            </div>
+                            <div class="extra text">{{ experience.description_long | safe }}
+                               <p class="small text"></p>
+                            </div>
+                        </div>
+                       </div>
+                    </div>
+                  </div>
+                  <div class="extra content">
+                       {% for tag in experience.tags.all %}
+                        <div class="ui mini olive tag labels">
+                          <a class="ui label">{{ tag.tag }}</a>
+                        </div>
+                        {% endfor %}
+                  </div>
+                  <div class="extra content">
+                      <div class="ui horizontal list">
+                        {% for contact in experience.contacts.all %}
+                        <div class="item">
+                          <img class="ui mini circular image" src="{% if contact.actor.logo %}{{ contact.actor.logo.url }}{% else %}{% load static %}{% static 'Images/image.png' %}{% endif            %}" alt="{{ contact.actor.nom }}">
+                          <div class="content">
+                            <div class="ui sub header">{{ contact.actor.name }}</div>
+                           <small> <i class="user icon"></i> {{ contact }} </small>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                  </div>
+                  <div class="ui bottom attached button">
+                      <i class="caret right icon"></i>en savoir plus...
+                  </div>
+
+              </div>
+
+            {% endfor %}
+        </div>
+      <div>
+      <!-- Pusher end -->
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block bottom %}
+  {{ block.super }}
+
+<script type="text/javascript">
+
+  $(window).on('map:init', function (e) {
+
+      var LeafIcon = L.Icon.extend({
+          options: {
+          shadowUrl: '/static/Images/leaf-shadow.png',
+
+          iconSize:     [15, 35], // size of the icon
+          shadowSize:   [18, 24], // size of the shadow
+          iconAnchor:   [9, 36], // point of the icon which will correspond to marker's location
+          shadowAnchor: [2, 24],  // the same for the shadow
+          popupAnchor:  [-1, -32] // point from which the popup should open relative to the iconAnchor
+          }
+      });
+
+      var greenIcon = new LeafIcon({iconUrl: '/static/Images/leaf-green.png'}),
+      tealIcon = new LeafIcon({iconUrl: '/static/Images/leaf-teal.png'}),
+      yellowIcon = new LeafIcon({iconUrl: '/static/Images/leaf-yellow.png'});
+
+      function onEachFeature(feature, layer) {
+          if(feature.properties.feature !== null){
+          var content = '<p class="ui label '+feature.properties.status+'">'+feature.properties.name+'</p> - '+feature.properties.statusfr+'</a><br><small>'+feature.properties.description_short+'</small>';
+          layer.bindPopup(content);
+          }
+      }
+      var detail = e.originalEvent ?
+                   e.originalEvent.detail : e.detail;
+
+       L.geoJson({{ geojson|safe }}, {
+         style: function(feature) {
+           switch (feature.properties.status) {
+               case 'green':
+                 return {color: "rgba(34, 120, 15, 0.8)", "opacity": 0.9, fillColor:"rgba(34, 120, 15, 1)"};
+           }
+         },
+         onEachFeature: onEachFeature,
+         pointToLayer: function(feature, latlng) {
+           switch (feature.properties.status) {
+              case 'green':
+                return new L.Marker(latlng, {icon: greenIcon});
+              case 'yellow':
+                return new L.Marker(latlng, {icon: yellowIcon});
+              case 'teal':
+                return new L.Marker(latlng, {icon: tealIcon});
+
+           }
+         }
+       }).addTo(detail.map);
+  });
+
+</script>
+<script type="text/javascript">
+   $(function() {
+
+
+     $('.menu.sidebar').sidebar(
+        {
+        context:$('#app'),
+        closable: 'false'
+        }
+     );
+
+     $('#show-sidebar').click(function() {
+       $('.menu.sidebar').sidebar('toggle');
+     });
+
+     $('#hide-sidebar').click(function() {
+       $('#show-sidebar').show();
+       $('.menu.sidebar').sidebar('toggle');
+     });
+
+     $('#tout').click(function() {
+       $(location).attr('href', window.location.pathname);
+     });
+       $('.ui.sticky').sticky()
+    ;
+
+   });
+</script>
+
+{% endblock %}
