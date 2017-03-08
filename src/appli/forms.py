@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from dal import autocomplete
-from django.contrib.gis import forms
 
+from django.contrib.gis import forms
 
 from .models import ExperienceTag
 

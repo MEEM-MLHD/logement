@@ -3,16 +3,20 @@ from __future__ import unicode_literals
 
 import json
 import requests
+from markdownx.models import MarkdownxField
 
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import GEOSGeometry, GeometryCollection
 from django.db import models
 
-from markdownx.models import MarkdownxField
+
 
  
 
 class Actor(models.Model):
+    """Actor model
+    Define an actor of an Experience, someone really involved in the housing experience.
+    """
     name = models.CharField(u'nom', max_length=120)
     address = models.CharField(u'adresse', max_length=240, blank=True)
     url = models.URLField(max_length=240, blank=True)
@@ -96,7 +100,6 @@ class Event(models.Model):
     publication_date = models.DateField(u'date de publication')
     deadline_date = models.DateField(u'date de fin de publication')
     url = models.URLField(max_length=240, blank=True)
-    #featured = models.BooleanField(u'à la une')
     create_date = models.DateTimeField(u'date de création', auto_now_add=True)
     update_date = models.DateTimeField(u'date de mise à jour', auto_now=True)
 
@@ -115,6 +118,7 @@ class Engagement(models.Model):
     class Meta:
         verbose_name = u"Contact"
 
+
 class Participation(models.Model):
     experience = models.ForeignKey(Experience)
     acteur = models.ForeignKey(Actor)
@@ -130,9 +134,9 @@ class City(gis_models.Model):
     geometry = gis_models.GeometryCollectionField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        if self.geometry :
+        if self.geometry:
             pass
-        else :
+        else:
             r = requests.get('https://geo.api.gouv.fr/communes?fields=nom,contour&code=%s' % (self.insee))
             try:
                 coord = r.json()[0]['contour']

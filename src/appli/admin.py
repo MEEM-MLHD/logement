@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.contrib import admin
 from leaflet.admin import LeafletGeoAdmin
 from markdownx.admin import MarkdownxModelAdmin
 
+from django.contrib import admin
 from .models import *
-
 
 
 class ActorTagOrderInline(admin.TabularInline):
@@ -34,6 +33,8 @@ class EngagementInline(admin.TabularInline):
 
 class ParticipationInline(admin.TabularInline):
     model = Participation
+
+
     extra = 1
 
 
