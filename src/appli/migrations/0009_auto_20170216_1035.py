@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import tinymce.models
+#import tinymce.models
 
 
 class Migration(migrations.Migration):
@@ -27,11 +27,11 @@ class Migration(migrations.Migration):
             name='rank',
             field=models.PositiveIntegerField(verbose_name='n\xb0 ordre'),
         ),
-        migrations.AlterField(
-            model_name='experience',
-            name='description_long',
-            field=tinymce.models.HTMLField(default='<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>', null=True, verbose_name='description longue'),
-        ),
+        #migrations.AlterField(
+        #    model_name='experience',
+        #    name='description_long',
+        #    field=tinymce.models.HTMLField(default='<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>', null=True, verbose_name='description longue'),
+        #),
         migrations.AlterField(
             model_name='experience',
             name='description_short',

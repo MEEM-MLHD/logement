@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
-import tinymce.models
+#import tinymce.models
 
 
 class Migration(migrations.Migration):
@@ -46,11 +46,11 @@ class Migration(migrations.Migration):
             name='city',
             field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to='appli.City', verbose_name='ville'),
         ),
-        migrations.AlterField(
-            model_name='actor',
-            name='description_long',
-            field=tinymce.models.HTMLField(default='<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>', null=True, verbose_name='description longue'),
-        ),
+        #migrations.AlterField(
+        #    model_name='actor',
+        #    name='description_long',
+        #    field=tinymce.models.HTMLField(default='<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>', null=True, verbose_name='description longue'),
+        #),
         migrations.AlterField(
             model_name='actor',
             name='description_short',
@@ -111,11 +111,11 @@ class Migration(migrations.Migration):
             name='create_date',
             field=models.DateTimeField(auto_now_add=True, null=True, verbose_name='date de cr\xe9ation'),
         ),
-        migrations.AlterField(
-            model_name='experience',
-            name='description_long',
-            field=tinymce.models.HTMLField(default='<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>', null=True, verbose_name='Description longue'),
-        ),
+       # migrations.AlterField(
+       #     model_name='experience',
+       #     name='description_long',
+       #     field=tinymce.models.HTMLField(default='<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>', null=True, verbose_name='Description longue'),
+       # ),
         migrations.AlterField(
             model_name='experience',
             name='description_short',

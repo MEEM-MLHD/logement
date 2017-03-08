@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import django.db.models.deletion
-import tinymce.models
+#import tinymce.models
 
 
 class Migration(migrations.Migration):
@@ -66,11 +66,11 @@ class Migration(migrations.Migration):
             name='deadline_date',
             field=models.DateField(verbose_name='date de fin de publication'),
         ),
-        migrations.AlterField(
-            model_name='event',
-            name='description_long',
-            field=tinymce.models.HTMLField(null=True, verbose_name='decription longue'),
-        ),
+       #migrations.AlterField(
+       #    model_name='event',
+       #    name='description_long',
+       #    field=tinymce.models.HTMLField(null=True, verbose_name='decription longue'),
+       #),
         migrations.AlterField(
             model_name='event',
             name='description_short',

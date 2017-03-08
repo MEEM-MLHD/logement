@@ -7,10 +7,10 @@ import requests
 from django.contrib.gis.db import models as gis_models
 from django.contrib.gis.geos import GEOSGeometry, GeometryCollection
 from django.db import models
-from tinymce.models import HTMLField
 
+from markdownx.models import MarkdownxField
 
-
+ 
 
 class Actor(models.Model):
     name = models.CharField(u'nom', max_length=120)
@@ -18,7 +18,7 @@ class Actor(models.Model):
     url = models.URLField(max_length=240, blank=True)
     city = models.ForeignKey('City', verbose_name=u'ville', blank=True)
     description_short = models.CharField(u'description courte', max_length=120)
-    description_long = HTMLField(u'description longue', default="<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>", null=True)
+    description_long = MarkdownxField(u'description longue', default="#### Titre", null=True)
     logo = models.ImageField(upload_to="actor/logo", blank=True, null=True)
     featured_image = models.ImageField(u'image de couverture', upload_to="actor/featured_image", blank=True)
     featured = models.BooleanField(u'à la une', default=False)
@@ -56,17 +56,17 @@ class Experience(models.Model):
     subtitle = models.CharField(u'sous-titre', max_length=240)
     city = models.ForeignKey('City',verbose_name=u'ville', blank=True, null=True)
     description_short = models.TextField(u'description courte', max_length=240)
-    description_long = HTMLField(u'description longue', default="<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>", null=True)
+    description_long = MarkdownxField(u'description longue', default="#### Titre", null=True)
     status =  models.CharField(max_length=10, choices=STATUS_CHOICES, default='en projet')
     featured_image = models.ImageField(u'image de couverture', upload_to="experience", blank=True, null=True)
     featured_image_txt = models.TextField(u'légende, crédit photo...', max_length=240, blank=True, default="")
     url = models.URLField(max_length=240, blank=True)
     contacts =  models.ManyToManyField('Contact', through='Engagement')
     participants = models.ManyToManyField('Actor', through='Participation')
+    tags = models.ManyToManyField('ExperienceTag', through='ExperienceTagOrder')
     featured = models.BooleanField(u'à la une', default=False)
     create_date = models.DateTimeField(u'date de création', auto_now_add=True, blank=True, null=True)
     update_date = models.DateTimeField(u'date de mise à jour', auto_now=True, blank=True, null=True)
-    tags = models.ManyToManyField('ExperienceTag', through='ExperienceTagOrder')
 
     def __unicode__(self):
         return self.title
@@ -92,7 +92,7 @@ class Event(models.Model):
     subtitle = models.CharField(u'sous-titre', max_length=240, default="")
     featured_image = models.ImageField(u'image de couverture', upload_to="events/featured_image")
     description_short = models.TextField(u'description courte', max_length=240, default="")
-    description_long =HTMLField(u'decription longue', null=True)
+    description_long =MarkdownxField(u'decription longue', null=True)
     publication_date = models.DateField(u'date de publication')
     deadline_date = models.DateField(u'date de fin de publication')
     url = models.URLField(max_length=240, blank=True)
@@ -164,11 +164,17 @@ class ExperienceTag(models.Model):
     def __unicode__(self):
         return self.tag
 
+    class Meta:
+        verbose_name = u"Mots-clé Expérience"
+
 
 class ExperienceTagOrder(models.Model):
     experience_tag = models.ForeignKey(ExperienceTag, verbose_name=u'Mot clé',)
     experience = models.ForeignKey(Experience)
     order = models.PositiveIntegerField(u'n° ordre')
+
+    class Meta:
+        verbose_name = u"Relation Experience - Mots-clé"
 
 
 class ActorTag(models.Model):
@@ -177,11 +183,17 @@ class ActorTag(models.Model):
     def __unicode__(self):
         return self.tag
 
+    class Meta:
+        verbose_name = u"Mots-clé Acteur"
+
 
 class ActorTagOrder(models.Model):
     actor_tag = models.ForeignKey(ActorTag, verbose_name=u'Mot clé')
     actor = models.ForeignKey(Actor)
     order = models.PositiveIntegerField(u'n° ordre')
+
+    class Meta:
+        verbose_name = u"Relation Acteur - Mots-clé"
 
 
 class ActorImage(models.Model):

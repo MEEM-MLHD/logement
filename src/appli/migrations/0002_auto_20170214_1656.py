@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import tinymce.models
+#import tinymce.models
 
 
 class Migration(migrations.Migration):
@@ -67,11 +67,11 @@ class Migration(migrations.Migration):
             name='share_contact_ref',
             field=models.BooleanField(default=False),
         ),
-        migrations.AddField(
-            model_name='event',
-            name='description_long',
-            field=tinymce.models.HTMLField(null=True),
-        ),
+        #migrations.AddField(
+        #    model_name='event',
+        #    name='description_long',
+        #    field=tinymce.models.HTMLField(null=True),
+        #),
         migrations.AddField(
             model_name='event',
             name='description_short',
@@ -92,21 +92,21 @@ class Migration(migrations.Migration):
             name='featured_image_txt',
             field=models.TextField(max_length=240, null=True),
         ),
-        migrations.AlterField(
-            model_name='actor',
-            name='description_long',
-            field=tinymce.models.HTMLField(default='<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>', null=True),
-        ),
+        #migrations.AlterField(
+        #    model_name='actor',
+        #    name='description_long',
+        #    field=tinymce.models.HTMLField(default='<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>', null=True),
+        #),
         migrations.AlterField(
             model_name='event',
             name='title',
             field=models.CharField(max_length=120),
         ),
-        migrations.AlterField(
-            model_name='experience',
-            name='description_long',
-            field=tinymce.models.HTMLField(default='<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>', null=True),
-        ),
+        #migrations.AlterField(
+        #    model_name='experience',
+        #    name='description_long',
+        #    field=tinymce.models.HTMLField(default='<h3>Titre</h3></hgroup><p>Paragraph</p><h3>Titre</h3></hgroup><p>Paragraph</p>', null=True),
+        #),
         migrations.AlterField(
             model_name='experience',
             name='url',
