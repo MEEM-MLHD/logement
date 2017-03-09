@@ -137,7 +137,15 @@ class City(gis_models.Model):
         if self.geometry:
             pass
         else:
-            r = requests.get('https://geo.api.gouv.fr/communes?fields=nom,contour&code=%s' % (self.insee))
+            if self.insee in ["75101", "75102", "75103", "75104", "75105", "75106", "75107", "75108", "75109", "75110", "75111", "75112", "75113","75114", "75115", "75116", "75117", "75118", "75119", "75120"]:
+                code_INSEE = "75056"
+            elif self.insee in ["69381", "69382", "69383", "69384", "69385", "69386", "69387", "69388", "69389"]:
+                code_INSEE = "69123"
+            elif self.insee in ["13201", "13202", "13203", "13204", "13205", "13206", "13207", "13208", "13209", "13210", "13211", "13212", "13213","13214", "13215", "13216"]:
+                code_INSEE = "13055" 
+            else:
+                code_INSEE = self.insee            
+            r = requests.get('https://geo.api.gouv.fr/communes?fields=nom,contour&code=%s' % (code_INSEE))
             try:
                 coord = r.json()[0]['contour']
                 nom = r.json()[0]['nom']
